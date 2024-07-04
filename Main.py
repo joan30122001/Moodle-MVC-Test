@@ -173,6 +173,29 @@ from unittest.mock import MagicMock
 from APIController import APIController  
 from ConsoleView import ConsoleView 
 import json
+from HtmlTestRunner import HTMLTestRunner
+
+
+class CustomTestResult(unittest.TextTestResult):
+    def addSuccess(self, test):
+        super().addSuccess(test)
+        self.stream.write(f"SUCCESS: {test}\n")
+
+    def addError(self, test, err):
+        super().addError(test, err)
+        self.stream.write(f"ERROR: {test}, {err}\n")
+
+    def addFailure(self, test, err):
+        super().addFailure(test, err)
+        self.stream.write(f"FAILURE: {test}, {err}\n")
+
+class CustomTextTestRunner(unittest.TextTestRunner):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, resultclass=CustomTestResult, **kwargs)
+
+
+
+
 
 class TestAPIController(unittest.TestCase):
     def setUp(self):
@@ -251,7 +274,9 @@ class TestAPIController(unittest.TestCase):
         ConsoleView.display.assert_called_once_with({'status': 'success', 'category_id': 3})
 
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    # unittest.main(testRunner=HTMLTestRunner(output='test_reports'))
+    unittest.main(testRunner=CustomTextTestRunner())
 
 
 # class TestAPIControllerIntegration(unittest.TestCase):
@@ -325,3 +350,4 @@ if __name__ == '__main__':
 
 # if __name__ == '__main__':
 #     unittest.main()
+
