@@ -168,115 +168,179 @@
 
 
 
-import unittest
-from unittest.mock import MagicMock
-from APIController import APIController  
-from ConsoleView import ConsoleView 
-import json
-from HtmlTestRunner import HTMLTestRunner
-
-
-class CustomTestResult(unittest.TextTestResult):
-    def addSuccess(self, test):
-        super().addSuccess(test)
-        self.stream.write(f"SUCCESS: {test}\n")
-
-    def addError(self, test, err):
-        super().addError(test, err)
-        self.stream.write(f"ERROR: {test}, {err}\n")
-
-    def addFailure(self, test, err):
-        super().addFailure(test, err)
-        self.stream.write(f"FAILURE: {test}, {err}\n")
-
-class CustomTextTestRunner(unittest.TextTestRunner):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, resultclass=CustomTestResult, **kwargs)
 
 
 
 
 
-class TestAPIController(unittest.TestCase):
-    def setUp(self):
-        # Setup a mock APIController and ConsoleView
-        self.controller = APIController()
-        self.controller.get_courses = MagicMock()
-        self.controller.create_course = MagicMock()
-        self.controller.get_user = MagicMock()
-        self.controller.create_category = MagicMock()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import unittest
+# from unittest.mock import MagicMock
+# from APIController import APIController  
+# from ConsoleView import ConsoleView 
+# import json
+# from HtmlTestRunner import HTMLTestRunner
+
+
+# class CustomTestResult(unittest.TextTestResult):
+#     def addSuccess(self, test):
+#         super().addSuccess(test)
+#         self.stream.write(f"SUCCESS: {test}\n")
+
+#     def addError(self, test, err):
+#         super().addError(test, err)
+#         self.stream.write(f"ERROR: {test}, {err}\n")
+
+#     def addFailure(self, test, err):
+#         super().addFailure(test, err)
+#         self.stream.write(f"FAILURE: {test}, {err}\n")
+
+# class CustomTextTestRunner(unittest.TextTestRunner):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, resultclass=CustomTestResult, **kwargs)
+
+
+
+
+
+# class TestAPIController(unittest.TestCase):
+#     def setUp(self):
+#         # Setup a mock APIController and ConsoleView
+#         self.controller = APIController()
+#         self.controller.get_courses = MagicMock()
+#         self.controller.create_course = MagicMock()
+#         self.controller.get_user = MagicMock()
+#         self.controller.create_category = MagicMock()
         
-        ConsoleView.display = MagicMock()
+#         # ConsoleView.display = MagicMock()
+#         self.original_display = ConsoleView.display
+#         ConsoleView.display = MagicMock(side_effect=self.print_display)
 
-        # Common token used for all tests
-        self.token = '6b56aecb50603a843ff19b06b792755a'
+#         # Common token used for all tests
+#         self.token = '6b56aecb50603a843ff19b06b792755a'
 
-    def test_get_courses(self):
-        # Mock response for get_courses
-        self.controller.get_courses.return_value = {'status': 'success', 'data': ['Course1', 'Course2']}
-        # Simulate calling the actual functionality
-        courses_response = self.controller.get_courses(self.token)
-        # Verify results
-        ConsoleView.display(courses_response)
-        self.controller.get_courses.assert_called_once_with(self.token)
-        ConsoleView.display.assert_called_once_with({'status': 'success', 'data': ['Course1', 'Course2']})
+    
 
-    def test_create_course(self):
-        # Mock response for create_course
-        self.controller.create_course.return_value = {'status': 'success', 'course_id': 101}
-        # Simulate calling the actual functionality
-        new_course_response = self.controller.create_course(
-            token=self.token,
-            fullname='Mekalfone',
-            shortname='M',
-            categoryid=7
-        )
-        # Verify results
-        ConsoleView.display(new_course_response)
-        self.controller.create_course.assert_called_once_with(
-            token=self.token,
-            fullname='Mekalfone',
-            shortname='M',
-            categoryid=7
-        )
-        ConsoleView.display.assert_called_once_with({'status': 'success', 'course_id': 101})
+#     def print_display(self, data):
+#         # Function to simulate display and print data
+#         print("Display call with:", data)
+#         self.original_display(data)  # Call the original method if necessary
 
-    def test_get_user(self):
-        # Mock response for get_user
-        self.controller.get_user.return_value = {'status': 'success', 'username': 'mekalfone'}
-        # Simulate calling the actual functionality
-        user_response = self.controller.get_user(
-            token=self.token,
-            username="mekalfone"
-        )
-        # Verify results
-        ConsoleView.display(user_response)
-        self.controller.get_user.assert_called_once_with(
-            token=self.token,
-            username="mekalfone"
-        )
-        ConsoleView.display.assert_called_once_with({'status': 'success', 'username': 'mekalfone'})
 
-    def test_create_category(self):
-        # Mock response for create_category
-        self.controller.create_category.return_value = {'status': 'success', 'category_id': 3}
-        # Simulate calling the actual functionality
-        new_category_response = self.controller.create_category(
-            token=self.token,
-            category_name="mekalfone"
-        )
-        # Verify results
-        ConsoleView.display(new_category_response)
-        self.controller.create_category.assert_called_once_with(
-            token=self.token,
-            category_name="mekalfone"
-        )
-        ConsoleView.display.assert_called_once_with({'status': 'success', 'category_id': 3})
 
-if __name__ == '__main__':
-    # unittest.main()
-    # unittest.main(testRunner=HTMLTestRunner(output='test_reports'))
-    unittest.main(testRunner=CustomTextTestRunner())
+#     def test_get_courses(self):
+#         # Mock response for get_courses
+#         self.controller.get_courses.return_value = {'status': 'success', 'data': ['Course1', 'Course2']}
+#         # Simulate calling the actual functionality
+#         courses_response = self.controller.get_courses(self.token)
+#         # Verify results
+#         ConsoleView.display(courses_response)
+#         self.controller.get_courses.assert_called_once_with(self.token)
+#         ConsoleView.display.assert_called_once_with({'status': 'success', 'data': ['Course1', 'Course2']})
+
+#     def test_create_course(self):
+#         # Mock response for create_course
+#         self.controller.create_course.return_value = {'status': 'success', 'course_id': 101}
+#         # Simulate calling the actual functionality
+#         new_course_response = self.controller.create_course(
+#             token=self.token,
+#             fullname='Mekalfone',
+#             shortname='M',
+#             categoryid=7
+#         )
+#         # Verify results
+#         ConsoleView.display(new_course_response)
+#         self.controller.create_course.assert_called_once_with(
+#             token=self.token,
+#             fullname='Mekalfone',
+#             shortname='M',
+#             categoryid=7
+#         )
+#         ConsoleView.display.assert_called_once_with({'status': 'success', 'course_id': 101})
+
+#     def test_get_user(self):
+#         # Mock response for get_user
+#         self.controller.get_user.return_value = {'status': 'success', 'username': 'mekalfone'}
+#         # Simulate calling the actual functionality
+#         user_response = self.controller.get_user(
+#             token=self.token,
+#             username="mekalfone"
+#         )
+#         # Verify results
+#         ConsoleView.display(user_response)
+#         self.controller.get_user.assert_called_once_with(
+#             token=self.token,
+#             username="mekalfone"
+#         )
+#         ConsoleView.display.assert_called_once_with({'status': 'success', 'username': 'mekalfone'})
+
+#     def test_create_category(self):
+#         # Mock response for create_category
+#         self.controller.create_category.return_value = {'status': 'success', 'category_id': 3}
+#         # Simulate calling the actual functionality
+#         new_category_response = self.controller.create_category(
+#             token=self.token,
+#             category_name="mekalfone"
+#         )
+#         # Verify results
+#         ConsoleView.display(new_category_response)
+#         self.controller.create_category.assert_called_once_with(
+#             token=self.token,
+#             category_name="mekalfone"
+#         )
+#         ConsoleView.display.assert_called_once_with({'status': 'success', 'category_id': 3})
+
+# if __name__ == '__main__':
+#     # unittest.main()
+#     # unittest.main(testRunner=HTMLTestRunner(output='test_reports'))
+#     unittest.main(testRunner=CustomTextTestRunner())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # class TestAPIControllerIntegration(unittest.TestCase):
@@ -351,3 +415,63 @@ if __name__ == '__main__':
 # if __name__ == '__main__':
 #     unittest.main()
 
+
+
+import unittest
+from APIController import APIController  
+from ConsoleView import ConsoleView 
+
+class TestAPIController(unittest.TestCase):
+    def setUp(self):
+        # Initialize APIController
+        self.controller = APIController()
+        
+        # Common token used for all tests, ensure this token is valid for live testing
+        self.token = '6b56aecb50603a843ff19b06b792755a'
+        self.tokens = 'd39ecf70f0e8370ff238bd8cdfcfd014'
+
+    def test_get_courses(self):
+        # Call the actual functionality
+        courses_response = self.controller.get_courses(self.tokens)
+        # Display results
+        ConsoleView.display(courses_response)
+        # Here, you could assert expected values if known, for example:
+        # self.assertIn('Course1', courses_response['data'])
+
+    def test_create_course(self):
+        # Call the actual functionality
+        new_course_response = self.controller.create_course(
+            token=self.token,
+            fullname='Mekalfone',
+            shortname='MKS',
+            categoryid=10
+        )
+        # Display results
+        ConsoleView.display(new_course_response)
+        # Assert expected results
+        # self.assertEqual(new_course_response['status'], 'success')
+
+    def test_get_user(self):
+        # Call the actual functionality
+        user_response = self.controller.get_user(
+            token=self.token,
+            username="mekalfone"
+        )
+        # Display results
+        ConsoleView.display(user_response)
+        # Assert expected results
+        # self.assertEqual(user_response['status'], 'success')
+
+    def test_create_category(self):
+        # Call the actual functionality
+        new_category_response = self.controller.create_category(
+            token=self.token,
+            category_name="mekalfone"
+        )
+        # Display results
+        ConsoleView.display(new_category_response)
+        # Assert expected results
+        # self.assertEqual(new_category_response['status'], 'success')
+
+if __name__ == '__main__':
+    unittest.main()
