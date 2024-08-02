@@ -478,8 +478,8 @@ class TestAPIController(unittest.TestCase):
         new_update_user_response = self.controller.update_user(
             token=self.token,
             userid=234,
-            email='pietzkeea.ali@mekalfone.com',
-            firstname='Joan'
+            email='modification.ali@mekalfone.com', #pietzke
+            firstname='Joan Loic'
         )
         # Display results
         ConsoleView.display(new_update_user_response)
