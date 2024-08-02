@@ -473,5 +473,18 @@ class TestAPIController(unittest.TestCase):
         # Assert expected results
         # self.assertEqual(new_category_response['status'], 'success')
 
+    def test_update_user(self):
+        # Call the actual functionality
+        new_update_user_response = self.controller.update_user(
+            token=self.token,
+            userid=234,
+            email='pietzkeea.ali@mekalfone.com',
+            firstname='Joan'
+        )
+        # Display results
+        ConsoleView.display(new_update_user_response)
+        # Assert expected results
+        # self.assertEqual(new_course_response['status'], 'success')
+
 if __name__ == '__main__':
     unittest.main()

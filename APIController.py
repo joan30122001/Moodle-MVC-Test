@@ -54,3 +54,10 @@ class APIController:
             moodlewsrestformat='json',
             **{'categories[0][name]': category_name}
         )
+    def update_user(self, token, userid, email, firstname):
+        return self.request_moodle(
+        wstoken=token,
+        wsfunction='core_user_update_users',
+        moodlewsrestformat='json',
+        **{f'users[0][{key}]': value for key, value in {'id': userid, 'email': email, 'firstname': firstname}.items()}
+    )
