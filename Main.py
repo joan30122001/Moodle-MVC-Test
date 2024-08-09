@@ -420,6 +420,7 @@
 import unittest
 from APIController import APIController  
 from ConsoleView import ConsoleView 
+import xmlrunner
 
 class TestAPIController(unittest.TestCase):
     def setUp(self):
@@ -486,5 +487,12 @@ class TestAPIController(unittest.TestCase):
         # Assert expected results
         # self.assertEqual(new_course_response['status'], 'success')
 
+# if __name__ == '__main__':
+#     unittest.main()
+
+
 if __name__ == '__main__':
-    unittest.main()
+    with open('test-results.xml', 'wb') as output:
+        unittest.main(
+            testRunner=xmlrunner.XMLTestRunner(output=output),
+            failfast=False, buffer=False, catchbreak=False)
